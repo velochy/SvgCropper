@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en-US" ng-app="SvgCropperApp">
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta http-equiv="Content-Language" content="en-US"/>
+		<meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; connect-src * data: blob: ; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'">
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.5.1/lodash.min.js"></script>
+
+		<script src="FileSaver.js"></script>
+
+		<script src="app.js"></script>
+		<style>
+			svg { position: absolute; border: 1px solid #999; }
+		</style>
+	</head>
+	<body ng-controller="CropperCtrl" ng-cloak>		
+		<div>
+			<input type="file" fileread="loadSvg" />
+			<input type="text" ng-model="fname" />
+			<button ng-click="save()">Save</button>
+			<button ng-click="undo()" ng-hide="undo_list.length == 0">Undo</button>
+			<button ng-click="undo(true)" ng-hide="undo_list.length <= 1">Reset</button>
+
+			<button ng-click="tight(padding)">Tight</button>
+			<input type="number" style="width:50px" ng-model="padding"/>%
+			<input type="checkbox" ng-model="no_pad_bottom" title="no padding in bottom"/>
+
+			<form>
+				<input type="radio" name="mode" value="remove" ng-model="mode">Remove
+				<input type="radio" name="mode" value="crop" ng-model="mode">Crop
+				<input type="radio" name="mode" value="split" ng-model="mode">Split
+				<input type="number" style="width:50px" ng-model="split_counter" ng-show="mode=='split'"/>
+
+
+			</form>
+		</div>
+
+		<div id='svgarea' style="width:100%;height:100%" graph-mouse="mousefn">
+		</div>
+
+	</body>
+</html>
